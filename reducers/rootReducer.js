@@ -11,11 +11,8 @@ import {
 } from '../actions/rootActions.js';
 
 const initialState = {
-  number: '',
-  lastNumber: '',
-  lastOperation: '',
-  operation: '',
   compute: [],
+  joinedCompute: '',
 };
 
 function validateMaxSize(n) {
@@ -29,20 +26,17 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case NUMBER_SHOW:
       console.log('showed');
-      const isValidLength = validateMaxSize(state.number);
-      let number = null;
+      const isValidLength = validateMaxSize(state.compute);
       let compute = null;
       if (isValidLength != null) {
-        number = `${state.number}${action.payload}`;
         compute = [...state.compute, `${action.payload}`];
       } else {
-        number = `${action.payload}`;
         compute = [`${action.payload}`];
       }
       return {
         ...state,
-        number: number,
         compute: compute,
+        joinedCompute: state.joinedCompute + `${action.payload}`,
       };
       break;
 
@@ -54,8 +48,8 @@ export default (state = initialState, action) => {
       }
       return {
         ...state,
-        number: `${state.number.slice(0, state.number.length - 1)}`,
         compute: compute,
+        joinedCompute: state.joinedCompute + `${action.payload}`,
       };
       break;
     }
@@ -64,10 +58,8 @@ export default (state = initialState, action) => {
       console.log('cleared');
       return {
         ...state,
-        number: `${(state.number = '')}`,
-        lastNumber: '',
-        operation: '',
         compute: '',
+        joinedCompute: '',
       };
       break;
 
@@ -75,11 +67,8 @@ export default (state = initialState, action) => {
       console.log('added');
       return {
         ...state,
-        lastOperation: action.payload,
-        lastNumber: state.number,
-        number: `${(state.number = '')}`,
-        operation: action.payload,
         compute: [...state.compute, `${action.payload}`],
+        joinedCompute: state.joinedCompute + `${action.payload}`,
       };
       break;
 
@@ -87,11 +76,8 @@ export default (state = initialState, action) => {
       console.log('minus');
       return {
         ...state,
-        lastOperation: action.payload,
-        lastNumber: state.number,
-        number: `${(state.number = '')}`,
-        operation: action.payload,
         compute: [...state.compute, `${action.payload}`],
+        joinedCompute: state.joinedCompute + `${action.payload}`,
       };
       break;
 
@@ -99,11 +85,8 @@ export default (state = initialState, action) => {
       console.log('divided');
       return {
         ...state,
-        lastOperation: action.payload,
-        lastNumber: state.number,
-        number: `${(state.number = '')}`,
-        operation: action.payload,
         compute: [...state.compute, `${action.payload}`],
+        joinedCompute: state.joinedCompute + `${action.payload}`,
       };
       break;
 
@@ -111,11 +94,8 @@ export default (state = initialState, action) => {
       console.log('multiplied');
       return {
         ...state,
-        lastOperation: action.payload,
-        lastNumber: state.number,
-        number: `${(state.number = '')}`,
-        operation: action.payload,
         compute: [...state.compute, `${action.payload}`],
+        joinedCompute: state.joinedCompute + `${action.payload}`,
       };
       break;
 
@@ -127,11 +107,8 @@ export default (state = initialState, action) => {
       } catch (e) {}
       return {
         ...state,
-        number: `${newNumber}`,
-        lastNumber: 0,
-        lastOperation: '',
-        operation: '',
         compute: `${newNumber}`.split(''),
+        joinedCompute: `${newNumber}`,
       };
       break;
 
